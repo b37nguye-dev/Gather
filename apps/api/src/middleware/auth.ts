@@ -28,5 +28,6 @@ export async function authenticateToken(
     next();
   } catch {
     res.status(401).json({ error: "Unauthorized" });
+    return;
   }
 }

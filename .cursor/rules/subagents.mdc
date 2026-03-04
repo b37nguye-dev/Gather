@@ -1,0 +1,16 @@
+---
+description: Subagent configuration and location
+globs: 
+alwaysApply: true
+---
+
+# Subagents
+
+Subagents are defined in `.cursor/subagents/`. The `.cursor/agents` symlink points to `subagents/` so Cursor loads them from that directory.
+
+To set up or reset this configuration, run:
+```bash
+./scripts/setup-subagents.sh
+```
+
+Use `/subagent-setup` or invoke the subagent-setup subagent to run the migration.

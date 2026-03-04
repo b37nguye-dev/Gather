@@ -50,9 +50,9 @@ export default function ProfilePage(): React.ReactElement {
     } catch (err) {
       const msg =
         err instanceof api.ApiError
-          ? (typeof err.message === "string" && !err.message.includes("[object Object]")
-              ? err.message
-              : "Update failed")
+          ? typeof err.message === "string" && !err.message.includes("[object Object]")
+            ? err.message
+            : "Update failed"
           : "Update failed";
       setToast({ message: msg, type: "error" });
     } finally {
@@ -70,17 +70,12 @@ export default function ProfilePage(): React.ReactElement {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {toast && (
-        <Toast message={toast.message} type={toast.type} onClose={dismissToast} />
-      )}
+      {toast && <Toast message={toast.message} type={toast.type} onClose={dismissToast} />}
 
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-xl font-bold text-gray-900">Gather</h1>
-          <Link
-            to="/dashboard"
-            className="text-sm text-blue-600 hover:underline"
-          >
+          <Link to="/dashboard" className="text-sm text-blue-600 hover:underline">
             Back to dashboard
           </Link>
         </div>

@@ -1,5 +1,7 @@
 You are a senior full-stack engineer building a social scheduling app. Here is the PRD:
+
 # Product Requirements Document (PRD) / Business Requirements Document (BRD)
+
 ## Social Scheduling + Event Discovery Platform
 
 **Project Name:** Gather (Working Title)  
@@ -52,10 +54,13 @@ Modern friend groups struggle to convert social intent into coordinated action d
 Gather operates on three mutually reinforcing layers:
 
 #### Layer 1: Social Calendar
+
 Friends create persistent connections within the app and share calendar availability (either by syncing Google/Outlook/Apple calendars, or by manually inputting free/busy blocks). Privacy is granular—the app shows only free/busy by default, with optional transparency toggles for specific friend connections.
 
 #### Layer 2: Smart Availability Matching
+
 A weighted-scoring algorithm computes optimal meeting windows across the friend group. The algorithm factors in:
+
 - Number of free friends (scored by group size thresholds)
 - User preferences (evening vs. morning bias)
 - Recency (prefer slots closer to today)
@@ -64,23 +69,25 @@ A weighted-scoring algorithm computes optimal meeting windows across the friend 
 Output: Ranked list of "best meeting times" with confidence scores.
 
 #### Layer 3: Event Discovery Map
+
 Once a time slot is identified, the app surfaces a hyperlocal map of events happening at that specific time and place. Events come from multiple sources:
+
 - **Public APIs:** Eventbrite, Ticketmaster, Google Places, Meetup
 - **B2B Partners:** Local businesses (venues, restaurants, gyms, galleries) that pay to be featured
 - **One-tap RSVP:** Locks the time slot and pushes calendar invites to all group members' calendars
 
 ### Differentiation vs. Competitors
 
-| Feature | LettuceMeet | Howbout | Meetup | Doodle | **Gather** |
-|---|---|---|---|---|---|
-| Social graph (persistent) | ❌ | ✅ | Partial | ❌ | ✅ |
-| Calendar sync (multi-platform) | Google/Outlook | Google/Apple/Outlook | ❌ | ❌ | Google/Outlook/Apple + Manual |
-| Weighted availability algorithm | Grid only | Binary | ❌ | Poll | ✅ Weighted scoring |
-| Event discovery map | ❌ | ❌ | ✅ (primary focus) | ❌ | ✅ + B2B layer |
-| Smart nudges (contextual prompts) | Basic | Partial | ❌ | ❌ | ✅ Triggered by algo |
-| Gamification (leaderboard, streaks) | ❌ | ❌ | Partial | ❌ | ✅ Core mechanic |
-| B2B event partnership monetization | ❌ | ❌ | Yes (ad-only) | ❌ | ✅ CPR + listings |
-| Privacy controls (tiered) | Standard | Standard | Standard | Standard | ✅ 3-tier opt-in |
+| Feature                             | LettuceMeet    | Howbout              | Meetup             | Doodle   | **Gather**                    |
+| ----------------------------------- | -------------- | -------------------- | ------------------ | -------- | ----------------------------- |
+| Social graph (persistent)           | ❌             | ✅                   | Partial            | ❌       | ✅                            |
+| Calendar sync (multi-platform)      | Google/Outlook | Google/Apple/Outlook | ❌                 | ❌       | Google/Outlook/Apple + Manual |
+| Weighted availability algorithm     | Grid only      | Binary               | ❌                 | Poll     | ✅ Weighted scoring           |
+| Event discovery map                 | ❌             | ❌                   | ✅ (primary focus) | ❌       | ✅ + B2B layer                |
+| Smart nudges (contextual prompts)   | Basic          | Partial              | ❌                 | ❌       | ✅ Triggered by algo          |
+| Gamification (leaderboard, streaks) | ❌             | ❌                   | Partial            | ❌       | ✅ Core mechanic              |
+| B2B event partnership monetization  | ❌             | ❌                   | Yes (ad-only)      | ❌       | ✅ CPR + listings             |
+| Privacy controls (tiered)           | Standard       | Standard             | Standard           | Standard | ✅ 3-tier opt-in              |
 
 ---
 
@@ -96,6 +103,7 @@ Once a time slot is identified, the app surfaces a hyperlocal map of events happ
 - Privacy preference selection on first launch (calendar visibility level)
 
 **Acceptance Criteria:**
+
 - Sign-up flow completes in <2 minutes
 - OAuth scopes are minimal (only `freebusy` for calendar, never full event read)
 - User can choose calendar sync or manual input on first login
@@ -114,6 +122,7 @@ Once a time slot is identified, the app surfaces a hyperlocal map of events happ
 - See friend's free/busy availability (respecting privacy tier)
 
 **Acceptance Criteria:**
+
 - Friend search completes in <1 second (indexed by email)
 - Invitations have expiry (7 days, then expire)
 - Privacy tier applies immediately upon connection; users can adjust per-friend at any time
@@ -132,6 +141,7 @@ Once a time slot is identified, the app surfaces a hyperlocal map of events happ
 - Export/copy current grid to clipboard for sharing in group chat
 
 **Acceptance Criteria:**
+
 - Grid selection is intuitive and completes in <3 minutes
 - Visual feedback (highlighting, color contrast) is clear for selected blocks
 - User can save multiple availability profiles (e.g., "This Week" vs. "General")
@@ -150,6 +160,7 @@ Once a time slot is identified, the app surfaces a hyperlocal map of events happ
 - Archive/delete groups
 
 **Acceptance Criteria:**
+
 - Group creation takes <2 minutes
 - Invitations are sent via email or shareable link (7-day expiry)
 - Group page shows member list with initials/avatars and their current availability status
@@ -166,12 +177,13 @@ Once a time slot is identified, the app surfaces a hyperlocal map of events happ
 For each 30-minute time slot \(t\) across the next 4 weeks:
 
 \[
-\text{Score}(t) = \sum_{i=1}^{n} w_i \cdot \text{Free}_i(t) + \lambda \cdot \text{EventScore}(t) + \beta \cdot \text{RecencyBonus}(t)
+\text{Score}(t) = \sum\_{i=1}^{n} w_i \cdot \text{Free}\_i(t) + \lambda \cdot \text{EventScore}(t) + \beta \cdot \text{RecencyBonus}(t)
 \]
 
 Where:
+
 - \(w_i\) = weight for friend \(i\) (core friends: 1.0; peripheral: 0.5)
-- \(\text{Free}_i(t)\) = binary: 1 if friend \(i\) is free, 0 if busy
+- \(\text{Free}\_i(t)\) = binary: 1 if friend \(i\) is free, 0 if busy
 - \(\lambda\) = event relevance multiplier (0.2 by default, configurable)
 - \(\text{EventScore}(t)\) = relevance of nearby events at time \(t\) (0–1 scale)
 - \(\beta\) = recency multiplier (slots within 3 days get +0.3 boost)
@@ -179,6 +191,7 @@ Where:
 Output: Ranked list of top 5 time slots with confidence scores
 
 **Acceptance Criteria:**
+
 - Algorithm runs in <500ms for groups up to 10 members, 4-week horizon
 - Top recommendation appears at least 70% of the time when majority of group is free
 - Algorithm respects user-set preferred time windows (e.g., "only evenings")
@@ -198,6 +211,7 @@ Output: Ranked list of top 5 time slots with confidence scores
 4. **Low-Friction Invite:** User can tap "Yes" → automatically locks time + pushes calendar invites to all
 
 **Acceptance Criteria:**
+
 - Nudges are sent max 2x per week per group (avoid spam)
 - Users can opt out of nudges per group or globally
 - Nudge copy is casual, emoji-friendly, and <100 characters
@@ -215,6 +229,7 @@ Output: Ranked list of top 5 time slots with confidence scores
 - Group chat thread or comment section per proposal
 
 **Acceptance Criteria:**
+
 - Proposal interface is simple: pick date/time, then see instant availability
 - Availability updates in real-time if members change their calendars
 - Users can comment on proposals ("I'm down!" or "Can't make it this week")
@@ -229,6 +244,7 @@ Output: Ranked list of top 5 time slots with confidence scores
 **Feature:** One-click Google Calendar sync for automatic availability detection
 
 **Implementation:**
+
 - OAuth 2.0 flow using Google Calendar API `calendar.v3.freeBusy` endpoint
 - Request scopes: `calendar.readonly` (read-only, never modifying user's calendar)
 - Fetch free/busy for next 4 weeks, twice daily refresh
@@ -236,12 +252,14 @@ Output: Ranked list of top 5 time slots with confidence scores
 - Privacy: raw event details never stored; only binary busy/free blocks are retained
 
 **User Flow:**
+
 1. User clicks "Connect Google Calendar"
 2. OAuth consent screen appears (permissions clearly listed)
 3. App fetches free/busy data and dismisses the login flow
 4. User sees "Google Calendar connected ✓" with option to disconnect anytime
 
 **Acceptance Criteria:**
+
 - OAuth flow completes in <30 seconds
 - Free/busy data syncs within 5 minutes of a user updating their Google Calendar
 - User can disconnect at any time; free/busy data is purged from app
@@ -255,12 +273,14 @@ Output: Ranked list of top 5 time slots with confidence scores
 **Feature:** Support for Outlook calendars and Teams presence
 
 **Implementation:**
+
 - OAuth 2.0 flow using Microsoft Graph API `me/calendar/getSchedule` endpoint
 - Request scopes: `Calendars.Read` (read-only)
 - Fetch free/busy for next 4 weeks, twice daily refresh
 - Integration with Teams presence (optional): show if user is "in a meeting" on Teams, bias toward "busy" status
 
 **Acceptance Criteria:**
+
 - OAuth flow matches Google integration UX
 - Free/busy data syncs within 5 minutes
 - Teams presence integration is optional (user can opt in/out)
@@ -273,12 +293,14 @@ Output: Ranked list of top 5 time slots with confidence scores
 **Feature:** Direct integration with native iOS Calendar app
 
 **Implementation:**
+
 - Use native iOS EventKit framework (no OAuth required; permission prompt on first launch)
 - Access local device calendar events and extract free/busy data
 - Sync runs daily or on-demand when user opens the app
 - No cloud sync of raw events; free/busy data stays on device and sent to app server
 
 **Acceptance Criteria:**
+
 - Permission prompt is clear: "Gather needs access to your calendar to match you with friends"
 - Free/busy data syncs within 2 minutes of app launch
 - User can revoke permissions in iOS Settings; app gracefully falls back to manual input
@@ -291,12 +313,14 @@ Output: Ranked list of top 5 time slots with confidence scores
 **Feature:** Enhanced algorithm with learned user preferences
 
 **Enhancements:**
+
 - Historical preference learning: if a user always accepts "Friday evening" invitations but declines "Monday morning," algorithm weights accordingly
 - Poly-group optimization: if a user is in multiple friend groups, algorithm prevents double-booking
 - Dynamic weighting: friends who frequently coordinate together get slightly higher weights (discovered via historical data)
 - Seasonality: summer weekends rank higher; winter weekday evenings rank lower (configurable)
 
 **Acceptance Criteria:**
+
 - Algorithm runs in <1 second for groups up to 20 members
 - Top recommendation matches user acceptance rate >75% (A/B test vs. random)
 - Learned preferences improve recommendation quality by week 4 (measured via acceptance rate)
@@ -310,6 +334,7 @@ Output: Ranked list of top 5 time slots with confidence scores
 **Feature:** Real-time event feed from major ticketing platforms
 
 **Implementation:**
+
 - Fetch events within 15 km of user's location
 - Filter by event type (music, comedy, food, sports, arts, outdoor, nightlife)
 - Match events to recommended time slots from availability algorithm
@@ -317,6 +342,7 @@ Output: Ranked list of top 5 time slots with confidence scores
 - Link to external ticketing page for purchase (affiliate tracking optional)
 
 **Data Model:**
+
 ```
 Event {
   id: string
@@ -335,6 +361,7 @@ Event {
 ```
 
 **Acceptance Criteria:**
+
 - Events populate within 3 seconds of app load
 - Filters work instantly (<500ms) for category/price/distance
 - Only events within user-selected time window are shown
@@ -347,18 +374,21 @@ Event {
 **Feature:** Local businesses can list their own events directly on Gather
 
 **Implementation:**
+
 - Separate B2B partner portal (web dashboard) for businesses to create/manage events
 - Business submits: event title, date/time, venue address, category, description, image
 - Events appear on user-facing map with "Partner Event" badge
 - Analytics dashboard for businesses: impressions, clicks, RSVP count, attributed foot traffic (if integrated with POS systems)
 
 **Business Portal Features:**
+
 - Event creation/editing (CRUD)
 - Promotional options: featured placement (paid), sponsored nudges (paid)
 - Scheduling: recurring events (e.g., "Trivia Night every Friday")
 - Discount/promo codes tied to Gather RSVPs (attribution)
 
 **Acceptance Criteria:**
+
 - Business can create an event in <5 minutes
 - Event appears on user map within 1 hour of submission
 - Partner events are clearly distinguished from public events (badge, color coding)
@@ -371,6 +401,7 @@ Event {
 **Feature:** Interactive, clustered map of events at recommended time slots
 
 **Implementation:**
+
 - Mapbox GL JS for rendering
 - Events clustered by density; clicking a cluster zooms and spreads events
 - Radius-based filtering: show events within user-selected radius (1 km, 5 km, 10 km)
@@ -378,6 +409,7 @@ Event {
 - Bottom sheet (mobile) or side panel (desktop) showing event list sorted by relevance/rating
 
 **Acceptance Criteria:**
+
 - Map renders in <2 seconds
 - Clustering algorithm groups 50+ events into <10 visible clusters
 - Zoom/pan is smooth and responsive
@@ -391,6 +423,7 @@ Event {
 **Feature:** Confirm event attendance for the entire group with one action
 
 **Implementation:**
+
 - User taps "RSVP" on an event card
 - App shows: "Invite [Group Name] to [Event]?" with option to adjust group members
 - User confirms; app does three things atomically:
@@ -400,6 +433,7 @@ Event {
 - Each group member receives notification; they can accept/decline independently
 
 **Calendar Invite Format:**
+
 - Title: "[Event Title] with [Friend1], [Friend2], ..."
 - Description: "RSVPed via Gather | [Event URL]"
 - Time: matches event time exactly
@@ -407,6 +441,7 @@ Event {
 - Attendees: all group members
 
 **Acceptance Criteria:**
+
 - RSVP completes in <3 seconds end-to-end
 - Calendar invites arrive within 1 minute
 - All group members receive the same calendar invite (no duplicates)
@@ -428,12 +463,14 @@ Event {
 4. **Ranking:** Leaderboard is city-based (Toronto leaderboard shows top 100 groups)
 
 **Display:**
+
 - Top 10 groups visible globally on app home screen
 - Groups can see their own rank + trending (up/down from last month)
 - Streaks reset at month-end; new season begins
 - Archive view: see historical performance
 
 **Acceptance Criteria:**
+
 - Leaderboard data updates within 1 hour of confirmed meetup
 - Streaks are clearly explained (when they reset, how they're calculated)
 - Mobile layout shows top 5 groups in an easy-to-scan card view
@@ -447,24 +484,26 @@ Event {
 
 **Badge Types:**
 
-| Badge | Unlock Condition | Visual |
-|---|---|---|
-| **First Meetup** | Attend 1 event together | 🎉 |
-| **Regulars** | RSVP'd to the same venue 3 times | 🏠 |
-| **Night Owls** | 5+ meetups between 8PM–11:59PM | 🌙 |
-| **Foodies** | 5+ food/restaurant events | 🍽️ |
-| **Culture Crew** | 5+ arts/theater/gallery events | 🎭 |
-| **Active Lifestyle** | 5+ outdoor/sports events | ⛰️ |
-| **Comedy Club Kings** | 5+ comedy shows | 😂 |
-| **4-Week Streak** | Meet at least once per week for 4 weeks | 🔥 |
-| **Diversity Masters** | Meetups across 5+ event categories | 🌈 |
+| Badge                 | Unlock Condition                        | Visual |
+| --------------------- | --------------------------------------- | ------ |
+| **First Meetup**      | Attend 1 event together                 | 🎉     |
+| **Regulars**          | RSVP'd to the same venue 3 times        | 🏠     |
+| **Night Owls**        | 5+ meetups between 8PM–11:59PM          | 🌙     |
+| **Foodies**           | 5+ food/restaurant events               | 🍽️     |
+| **Culture Crew**      | 5+ arts/theater/gallery events          | 🎭     |
+| **Active Lifestyle**  | 5+ outdoor/sports events                | ⛰️     |
+| **Comedy Club Kings** | 5+ comedy shows                         | 😂     |
+| **4-Week Streak**     | Meet at least once per week for 4 weeks | 🔥     |
+| **Diversity Masters** | Meetups across 5+ event categories      | 🌈     |
 
 **Display:**
+
 - Badges shown on group profile (public badge shelf)
 - Badge earned → celebration screen + push notification
 - Hovering over badge shows progress toward next tier (e.g., "3/5 food events for Foodies badge")
 
 **Acceptance Criteria:**
+
 - Badge unlock conditions are automatically detected from RSVP data
 - New badges can be added in-app (no app update required)
 - Badge progress is visible and motivating
@@ -486,12 +525,14 @@ Event {
 6. **Analytics:** Business dashboard shows foot traffic attribution, per-RSVP conversion rates, demographic insights
 
 **Example Scenario:**
+
 - The Rec Room sets a CPR of $3 per group RSVP
 - Gather sends 50 smart nudges to groups on Friday: "The Rec Room has trivia + $10 group deals tonight"
 - 20 groups RSVP (= 60–80 people estimated)
 - The Rec Room pays Gather: 20 groups × $3 = $60
 
 **Acceptance Criteria:**
+
 - CPR rate can be adjusted by business (0–$10 range)
 - Featured placement pricing is simple and flat ($50–$200/week depending on city tier)
 - Business dashboard shows accurate RSVP count and estimated foot traffic
@@ -505,18 +546,21 @@ Event {
 **Feature:** Premium placement options for B2B partners
 
 **Featured Listings:**
+
 - Event appears at the top of the map/list for a city/region
 - Badge: "Featured by [Business Name]"
 - Weekly/monthly pricing tiers (Toronto: $100/week, $350/month)
 - Auto-renewal with payment method on file
 
 **Sponsored Smart Nudges:**
+
 - Business chooses: "I want to sponsor a nudge to groups looking for [EVENT_CATEGORY]"
 - Nudge is sent to targeted group segments (geography, interest, frequency)
 - Cost: $50–$500 per nudge batch (based on audience size + geography)
 - Example: "Comedy lovers of Toronto: [Venue Name] has a standout show Friday 9 PM. $5 off with this nudge!"
 
 **Acceptance Criteria:**
+
 - Businesses can activate/deactivate featured listings within 1 click
 - Nudge targeting is simple (category, geography, group size range)
 - Billing is transparent: show estimated reach before committing
@@ -531,12 +575,14 @@ Event {
 **Pricing:** $4.99 CAD one-time (or $2.99 if purchased within first 30 days)
 
 **Includes:**
+
 - Remove all sponsored event promotions and nudges (see only organic events)
 - Custom group avatars + group themes (color customization)
 - Export group meetup history to PDF (for memories)
 - Early access to new features (beta tester status)
 
 **Acceptance Criteria:**
+
 - Supporter purchase is prompted once (not aggressive/recurring)
 - Supporters are clearly labeled with a badge
 - Purchase is tied to account (transfers if user logs in from new device)
@@ -548,18 +594,18 @@ Event {
 
 ### 7.1 Technology Stack
 
-| Layer | Technology | Rationale |
-|---|---|---|
-| **Frontend (Web)** | React 18 + TypeScript + Tailwind CSS | Modern, maintainable, rapid iteration |
-| **Frontend (Mobile)** | React Native (Expo) | Code sharing across iOS/Android |
-| **Backend API** | Node.js + Express + GraphQL | Fast development, real-time subscriptions for calendar sync |
-| **Database** | PostgreSQL (user/group data) + Redis (session/cache) | Relational + caching for performance |
-| **Calendar Integration** | Google Calendar API, Microsoft Graph, Apple EventKit | Native SDKs |
-| **Mapping** | Mapbox GL JS | Superior clustering + customization |
-| **Event Data** | Eventbrite API, Ticketmaster API | Primary public event sources |
-| **Authentication** | Auth0 or Firebase Auth | Multi-OAuth, PIPEDA-compliant |
-| **Hosting** | AWS (EC2, RDS, S3) or Google Cloud | Scalability, multi-region support |
-| **Monitoring** | Sentry (errors), DataDog (performance) | Real-time alerting |
+| Layer                    | Technology                                           | Rationale                                                   |
+| ------------------------ | ---------------------------------------------------- | ----------------------------------------------------------- |
+| **Frontend (Web)**       | React 18 + TypeScript + Tailwind CSS                 | Modern, maintainable, rapid iteration                       |
+| **Frontend (Mobile)**    | React Native (Expo)                                  | Code sharing across iOS/Android                             |
+| **Backend API**          | Node.js + Express + GraphQL                          | Fast development, real-time subscriptions for calendar sync |
+| **Database**             | PostgreSQL (user/group data) + Redis (session/cache) | Relational + caching for performance                        |
+| **Calendar Integration** | Google Calendar API, Microsoft Graph, Apple EventKit | Native SDKs                                                 |
+| **Mapping**              | Mapbox GL JS                                         | Superior clustering + customization                         |
+| **Event Data**           | Eventbrite API, Ticketmaster API                     | Primary public event sources                                |
+| **Authentication**       | Auth0 or Firebase Auth                               | Multi-OAuth, PIPEDA-compliant                               |
+| **Hosting**              | AWS (EC2, RDS, S3) or Google Cloud                   | Scalability, multi-region support                           |
+| **Monitoring**           | Sentry (errors), DataDog (performance)               | Real-time alerting                                          |
 
 ### 7.2 Privacy & Security
 
@@ -570,12 +616,14 @@ Event {
 3. **Sensitive:** Email, password hash, payment info (stored via Stripe)
 
 **Compliance:**
+
 - PIPEDA (Personal Information Protection and Electronic Documents Act) — Canadian data residency
 - Data retention: free/busy data purged after 4 weeks; raw calendar never stored
 - OAuth scopes: minimal (read-only, no write access to user's calendar)
 - Encryption: TLS 1.2+ for all data in transit; AES-256 for data at rest
 
 **User Consent:**
+
 - Privacy tier selection on signup (clear, not buried)
 - Per-friend privacy override at any time
 - Annual privacy audit + user notification of any policy changes
@@ -587,6 +635,7 @@ Event {
 ### 8.1 MVP Launch Market: Toronto
 
 **Why Toronto:**
+
 - 2.9M metro population with high event density
 - Strong downtown core with walkable neighborhoods (King West, Entertainment District, Distillery District)
 - High event volume: 50,000+ events/year on Eventbrite
@@ -594,6 +643,7 @@ Event {
 - Existing networks (Gather team presence for on-ground B2B outreach)
 
 **Launch Sequence:**
+
 1. **Months 1–2:** Soft launch (500 internal testers, gather feedback)
 2. **Month 3:** Public launch (press release, product hunt, local tech blogs)
 3. **Months 3–6:** Acquire first 5,000 users via referral + organic
@@ -602,16 +652,17 @@ Event {
 
 ### 8.2 User Acquisition Channels
 
-| Channel | Timeline | CAC (Est.) | Rationale |
-|---|---|---|---|
-| **Organic/Referral** | Month 1 onwards | $0 (self-sustaining) | Friend invites generate viral coefficient >1 |
-| **ProductHunt launch** | Month 3 | $0–$200 (paid boost optional) | High-intent tech audience |
-| **Local SEO (Google My Business)** | Month 2 onwards | $0 (owned) | "Find friends to meet up with Toronto" |
-| **University partnerships** | Month 3 onwards | $0–$5k (sponsorship) | U of T, Ryerson events/clubs |
-| **Instagram/TikTok seeding** | Month 2 onwards | $1–$3k (creator partnerships) | Viral leaderboard clips, group highlights |
-| **B2B partner co-marketing** | Month 6 onwards | $0 (partner expense) | Venues promote via their email/socials |
+| Channel                            | Timeline        | CAC (Est.)                    | Rationale                                    |
+| ---------------------------------- | --------------- | ----------------------------- | -------------------------------------------- |
+| **Organic/Referral**               | Month 1 onwards | $0 (self-sustaining)          | Friend invites generate viral coefficient >1 |
+| **ProductHunt launch**             | Month 3         | $0–$200 (paid boost optional) | High-intent tech audience                    |
+| **Local SEO (Google My Business)** | Month 2 onwards | $0 (owned)                    | "Find friends to meet up with Toronto"       |
+| **University partnerships**        | Month 3 onwards | $0–$5k (sponsorship)          | U of T, Ryerson events/clubs                 |
+| **Instagram/TikTok seeding**       | Month 2 onwards | $1–$3k (creator partnerships) | Viral leaderboard clips, group highlights    |
+| **B2B partner co-marketing**       | Month 6 onwards | $0 (partner expense)          | Venues promote via their email/socials       |
 
 **Referral Mechanics:**
+
 - Invite friends via email or shareable link
 - Referrer + referee each get $0 value bonus (badge "Ambassador") or entry into monthly $100 gift card drawing
 - Monthly "Group Referral Challenge": top 5 groups that bring most new members win free tickets to partner venues
@@ -621,17 +672,20 @@ Event {
 **Target Partners:** Bars, restaurants, comedy clubs, galleries, fitness studios in Toronto
 
 **Pitch:**
+
 - "Stop paying for Facebook ads that don't convert. Pay only for foot traffic that shows up."
 - "50 CPR per RSVP group = estimated 150–200 people per week with predictable, measurable attendance."
 - "Our leaderboard turns your events into a social competition — groups meet more frequently to rack up points."
 
 **Outreach Cadence:**
+
 - Month 6: Email outreach to 500+ venues (templates, pitch deck)
 - Month 7: Phone calls to warm leads
 - Month 8: In-person demos at 20 top venues
 - Month 9: Contracts with 50+ partners (goal)
 
 **Success Metrics for Partners:**
+
 - RSVP attribution (how many people came because of Gather)
 - ROI: revenue generated vs. CPR costs paid
 - Repeat RSVP rate: what % of groups return after first visit
@@ -642,57 +696,58 @@ Event {
 
 ### 9.1 User Metrics
 
-| Metric | Month 3 Target | Month 6 Target | Month 12 Target |
-|---|---|---|---|
-| **Total Users** | 2,000 | 5,000 | 10,000 |
-| **Monthly Active Users (MAU)** | 600 | 2,000 | 5,000 |
-| **Groups Created** | 300 | 1,000 | 2,500 |
-| **Avg. Meetups/Group/Month** | 0.5 | 1.2 | 2.0 |
-| **Calendar Sync Adoption %** | 20% | 50% | 70% |
-| **Retention (Day 7)** | 30% | 40% | 50% |
-| **Retention (Day 30)** | 15% | 25% | 35% |
+| Metric                         | Month 3 Target | Month 6 Target | Month 12 Target |
+| ------------------------------ | -------------- | -------------- | --------------- |
+| **Total Users**                | 2,000          | 5,000          | 10,000          |
+| **Monthly Active Users (MAU)** | 600            | 2,000          | 5,000           |
+| **Groups Created**             | 300            | 1,000          | 2,500           |
+| **Avg. Meetups/Group/Month**   | 0.5            | 1.2            | 2.0             |
+| **Calendar Sync Adoption %**   | 20%            | 50%            | 70%             |
+| **Retention (Day 7)**          | 30%            | 40%            | 50%             |
+| **Retention (Day 30)**         | 15%            | 25%            | 35%             |
 
 ### 9.2 Business Metrics
 
-| Metric | Month 6 Target | Month 9 Target | Month 12 Target |
-|---|---|---|---|
-| **B2B Partners Onboarded** | 10 | 30 | 50+ |
-| **Total B2B Revenue (CPR + Featured)** | $5k | $25k | $75k |
-| **Avg CPR Rate** | $3.50 | $3.25 | $3.00 |
-| **Total RSVPs via App** | 500 | 2,500 | 7,500 |
-| **Supporter Purchase Conversion %** | 2% | 3% | 5% |
+| Metric                                 | Month 6 Target | Month 9 Target | Month 12 Target |
+| -------------------------------------- | -------------- | -------------- | --------------- |
+| **B2B Partners Onboarded**             | 10             | 30             | 50+             |
+| **Total B2B Revenue (CPR + Featured)** | $5k            | $25k           | $75k            |
+| **Avg CPR Rate**                       | $3.50          | $3.25          | $3.00           |
+| **Total RSVPs via App**                | 500            | 2,500          | 7,500           |
+| **Supporter Purchase Conversion %**    | 2%             | 3%             | 5%              |
 
 ### 9.3 Product Metrics
 
-| Metric | Target | How Measured |
-|---|---|---|
-| **Algorithm Top-1 Accuracy** | >70% | % of time users accept top recommendation |
-| **Nudge Open Rate** | >25% | % of nudges that generate app opens |
-| **Nudge RSVP Conversion** | >5% | % of nudges that convert to RSVPs |
-| **Calendar Sync Reliability** | >99% | % of syncs that complete without error |
-| **Map Load Time** | <2s | P95 latency for map render |
-| **Leaderboard Update Latency** | <1hr | Time from RSVP confirmation to leaderboard update |
+| Metric                         | Target | How Measured                                      |
+| ------------------------------ | ------ | ------------------------------------------------- |
+| **Algorithm Top-1 Accuracy**   | >70%   | % of time users accept top recommendation         |
+| **Nudge Open Rate**            | >25%   | % of nudges that generate app opens               |
+| **Nudge RSVP Conversion**      | >5%    | % of nudges that convert to RSVPs                 |
+| **Calendar Sync Reliability**  | >99%   | % of syncs that complete without error            |
+| **Map Load Time**              | <2s    | P95 latency for map render                        |
+| **Leaderboard Update Latency** | <1hr   | Time from RSVP confirmation to leaderboard update |
 
 ---
 
 ## Part 10: Risk Assessment & Mitigation
 
-| Risk | Severity | Probability | Impact | Mitigation |
-|---|---|---|---|---|
-| **Cold Start Problem** (no friends on app = no value) | High | High | App dies before reaching critical mass | Referral invite flow; one-time events joinable without friends |
-| **Calendar Permission Fatigue** | Medium | High | Users avoid syncing calendars, limiting algorithm accuracy | Manual grid fallback; nudge after 2nd meetup, not day 1 |
-| **B2B Partner Acquisition Difficulty** | Medium | High | Revenue dries up; can't sustain development | Start with high-frequency venues (bars, gyms); offer free trial (first 100 RSVPs free) |
-| **Apple EventKit iOS-Only** | Low | High | Android users can't sync Apple Calendar | Manual input fallback + Google Calendar prioritization on Android |
-| **Privacy Regulation (PIPEDA)** | Medium | Medium | Legal liability if data handling violates law | Minimal data retention (4 weeks); read-only OAuth scopes; annual privacy audits |
-| **Churn in Month 2–3** | High | Medium | New users get bored after trying once or twice | Gamification (badges, streaks) + smart nudges + leaderboard competition |
-| **Competitor Copying** (Meetup/Eventbrite adding calendar sync) | Medium | Medium | Market share loss | Lock in via network effects (leaderboard, streaks); superior UX |
-| **Server/Data Loss** | Low | Low | Total service outage, users leave forever | Multi-region backups (AWS); daily snapshots; 99.95% SLA commitment |
+| Risk                                                            | Severity | Probability | Impact                                                     | Mitigation                                                                             |
+| --------------------------------------------------------------- | -------- | ----------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **Cold Start Problem** (no friends on app = no value)           | High     | High        | App dies before reaching critical mass                     | Referral invite flow; one-time events joinable without friends                         |
+| **Calendar Permission Fatigue**                                 | Medium   | High        | Users avoid syncing calendars, limiting algorithm accuracy | Manual grid fallback; nudge after 2nd meetup, not day 1                                |
+| **B2B Partner Acquisition Difficulty**                          | Medium   | High        | Revenue dries up; can't sustain development                | Start with high-frequency venues (bars, gyms); offer free trial (first 100 RSVPs free) |
+| **Apple EventKit iOS-Only**                                     | Low      | High        | Android users can't sync Apple Calendar                    | Manual input fallback + Google Calendar prioritization on Android                      |
+| **Privacy Regulation (PIPEDA)**                                 | Medium   | Medium      | Legal liability if data handling violates law              | Minimal data retention (4 weeks); read-only OAuth scopes; annual privacy audits        |
+| **Churn in Month 2–3**                                          | High     | Medium      | New users get bored after trying once or twice             | Gamification (badges, streaks) + smart nudges + leaderboard competition                |
+| **Competitor Copying** (Meetup/Eventbrite adding calendar sync) | Medium   | Medium      | Market share loss                                          | Lock in via network effects (leaderboard, streaks); superior UX                        |
+| **Server/Data Loss**                                            | Low      | Low         | Total service outage, users leave forever                  | Multi-region backups (AWS); daily snapshots; 99.95% SLA commitment                     |
 
 ---
 
 ## Part 11: Timeline & Milestones
 
 ### Phase 1: MVP (Months 1–3)
+
 - ✅ Authentication + onboarding
 - ✅ Social graph (friend connections)
 - ✅ Manual availability grid
@@ -702,6 +757,7 @@ Event {
 - **Milestone:** Launch soft beta to 500 users
 
 ### Phase 2: Calendar Sync (Months 4–6)
+
 - ✅ Google Calendar OAuth
 - ✅ Microsoft Graph (Outlook) OAuth
 - ✅ Apple EventKit (iOS)
@@ -710,6 +766,7 @@ Event {
 - **Milestone:** 5,000 users; 50% calendar adoption
 
 ### Phase 3: Events Map (Months 7–9)
+
 - ✅ Eventbrite + Ticketmaster API integration
 - ✅ Mapbox event discovery map
 - ✅ One-tap RSVP + calendar integration
@@ -718,6 +775,7 @@ Event {
 - **Milestone:** 50+ B2B partners; first $25k revenue
 
 ### Phase 4: Monetization & Gamification (Months 10–12)
+
 - ✅ Leaderboard + streaks
 - ✅ Badges & achievements
 - ✅ B2B CPR attribution system
@@ -750,16 +808,19 @@ The MVP is ready for public launch when:
 ## Part 13: Future Roadmap (Post-MVP)
 
 ### Q2 2027
+
 - **AI Interest Matching:** Infer group vibe from historical meetup data
 - **Split Cost Tools:** Group ticket purchases + payment splitting (Stripe integration)
 - **Memory Feed:** Photo/recap walls per meetup; feeds into badge system
 
 ### Q3 2027
+
 - **Cross-City Planning:** Groups can propose meetup cities (e.g., group spanning Toronto + Montreal)
 - **Corporate/Team Social Layer:** B2B2C offering for companies hosting team social events
 - **API for Third Parties:** Allow other apps to query Gather's event recommendations
 
 ### Q4 2027 & Beyond
+
 - **Expansion to Vancouver, Montreal, Calgary**
 - **International expansion (UK, Australia)**
 - **Smart event recommendations** (ML model based on group history + event embeddings)
@@ -769,18 +830,18 @@ The MVP is ready for public launch when:
 
 ## Appendix: Glossary
 
-| Term | Definition |
-|---|---|
-| **CPR** | Cost Per RSVP — B2B billing model where venues pay per group that RSVPs |
-| **Smart Nudge** | Contextual notification fired when availability match + event intersection occurs |
+| Term                 | Definition                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------- |
+| **CPR**              | Cost Per RSVP — B2B billing model where venues pay per group that RSVPs                            |
+| **Smart Nudge**      | Contextual notification fired when availability match + event intersection occurs                  |
 | **Weighted Scoring** | Algorithm that ranks time slots by multiple factors (group size, user preference, event proximity) |
-| **Calendar Sync** | Automatic fetching of free/busy data from user's external calendar (Google, Outlook, Apple) |
-| **Leaderboard** | Monthly ranking of groups by meetup frequency + engagement |
-| **Streak** | Consecutive weeks a group meets at least once per week |
-| **B2B Partner** | Local business (venue, restaurant, gym, gallery) that lists events and pays CPR |
-| **RSVP** | Confirmed attendance for an event; generates calendar invite for all group members |
-| **Privacy Tier** | User's chosen level of calendar transparency (free/busy only, titles visible, full details) |
-| **Event Clustering** | Grouping geographically proximate events on map for simplified visualization |
+| **Calendar Sync**    | Automatic fetching of free/busy data from user's external calendar (Google, Outlook, Apple)        |
+| **Leaderboard**      | Monthly ranking of groups by meetup frequency + engagement                                         |
+| **Streak**           | Consecutive weeks a group meets at least once per week                                             |
+| **B2B Partner**      | Local business (venue, restaurant, gym, gallery) that lists events and pays CPR                    |
+| **RSVP**             | Confirmed attendance for an event; generates calendar invite for all group members                 |
+| **Privacy Tier**     | User's chosen level of calendar transparency (free/busy only, titles visible, full details)        |
+| **Event Clustering** | Grouping geographically proximate events on map for simplified visualization                       |
 
 ---
 

@@ -1,0 +1,37 @@
+---
+description: Gather project architecture, tech stack, and conventions
+alwaysApply: true
+---
+
+# Gather Architecture
+
+## Monorepo Structure
+
+```
+gather/
+├── apps/api/      # Express backend (Node.js + TypeScript)
+├── apps/web/      # Vite + React frontend
+├── packages/shared/  # Shared types (User, AuthResponse, etc.)
+└── prisma/        # Schema + migrations
+```
+
+## Tech Stack
+
+- **Backend:** Express, TypeScript, Prisma, PostgreSQL (Supabase)
+- **Frontend:** React 18, Vite, Tailwind CSS, react-router-dom
+- **Auth:** JWT (access 15min, refresh 7 days) + httpOnly cookie
+- **Database:** Prisma ORM, Supabase Postgres (transaction + direct pooler URLs)
+
+## Key Conventions
+
+- **API routes:** `/api/auth/*`, `/api/users/*` — Express router modules in `apps/api/src/routes/`
+- **Auth middleware:** `authenticateToken` in `apps/api/src/middleware/auth.ts`
+- **Shared types:** Import from `@gather/shared` (User, AuthResponse)
+- **Env vars:** Root `.env` — `DATABASE_URL`, `DIRECT_URL`, `ACCESS_TOKEN_SECRET`, `OAUTH_ENCRYPTION_KEY`, `PORT`, `CORS_ORIGIN`
+- **Naming:** Descriptive files (e.g. `availabilityMatchingEngine.ts` not `utils.ts`)
+
+## Data Flow
+
+- Web proxies `/api` to API (port 3001) in dev
+- Auth: register/login return `accessToken` + set refresh cookie; protected routes use `Authorization: Bearer <token>`
+- Prisma client: `apps/api/src/lib/prisma.ts` — use `prisma` singleton

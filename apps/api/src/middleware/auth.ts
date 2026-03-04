@@ -4,7 +4,11 @@ import { prisma } from "../lib/prisma.js";
 
 export type AuthUser = { id: string; email: string };
 
-export async function authenticateToken(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function authenticateToken(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const authHeader = req.headers.authorization;
   const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
 

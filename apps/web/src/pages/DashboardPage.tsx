@@ -14,10 +14,7 @@ export default function DashboardPage(): React.ReactElement {
               Profile
             </Link>
             <span className="text-sm text-gray-600">{user?.name ?? user?.email}</span>
-            <button
-              onClick={() => logout()}
-              className="text-sm text-blue-600 hover:underline"
-            >
+            <button onClick={() => logout()} className="text-sm text-blue-600 hover:underline">
               Sign out
             </button>
           </div>

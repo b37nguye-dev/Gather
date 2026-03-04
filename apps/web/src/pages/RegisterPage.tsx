@@ -128,9 +128,7 @@ export default function RegisterPage(): React.ReactElement {
                 fieldErrors.name ? "border-red-400" : "border-gray-300"
               }`}
             />
-            {fieldErrors.name && (
-              <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>
-            )}
+            {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
           </div>
 
           <div>
@@ -150,9 +148,7 @@ export default function RegisterPage(): React.ReactElement {
                 fieldErrors.email ? "border-red-400" : "border-gray-300"
               }`}
             />
-            {fieldErrors.email && (
-              <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>
-            )}
+            {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
           </div>
 
           <div>
@@ -180,7 +176,10 @@ export default function RegisterPage(): React.ReactElement {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Confirm password
             </label>
             <input

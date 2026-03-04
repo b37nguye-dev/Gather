@@ -42,16 +42,11 @@ export default function LoginPage(): React.ReactElement {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      {toastMessage && (
-        <Toast message={toastMessage} type="error" onClose={dismissToast} />
-      )}
+      {toastMessage && <Toast message={toastMessage} type="error" onClose={dismissToast} />}
 
       <div className="w-full max-w-md">
         <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">Gather</h1>
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded-lg px-6 py-8 space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-6 py-8 space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email

@@ -1,0 +1,43 @@
+---
+description: Condensed PRD context for Gather social scheduling app
+alwaysApply: true
+---
+
+# Gather PRD (Condensed)
+
+## Product
+
+**Gather** — Social scheduling + event discovery platform. Solves "we should hang" coordination for friend groups via: (1) social calendar + availability matching, (2) weighted algorithm for optimal meeting windows, (3) hyperlocal event discovery map.
+
+**Target:** Urban friend groups 18–40, tier-1 North American cities (initial: Toronto). **Revenue:** B2B event partnership (Cost Per RSVP), sponsored listings.
+
+## MVP Phases
+
+**Phase 1 (Sprint 1–2):** Auth, social graph, manual availability grid, groups, weighted matching algorithm, smart nudges, manual event planning.
+
+**Phase 2:** Calendar integration — Google OAuth, Microsoft Graph, Apple EventKit. Enhanced algorithm with learned preferences.
+
+**Phase 3:** Event discovery — Eventbrite/Ticketmaster APIs, B2B partner feed, Mapbox map, one-tap RSVP.
+
+**Phase 4:** Gamification (leaderboards, streaks), B2B portal, polish.
+
+## Core Features (MVP)
+
+- **Auth:** Email + OAuth (Google, Apple, Microsoft). Profile, privacy tiers.
+- **Social graph:** Friend search, invitations (7-day expiry), relationship tags, block/unfriend, free/busy visibility.
+- **Manual availability:** Drag-select grid, weekly blocks, export.
+- **Groups:** Create/join, admin preferences, member availability, archive.
+- **Availability algorithm:** Weighted scoring (friends free, event relevance, recency). Under 500ms for 10 members, 4-week horizon.
+- **Smart nudges:** Availability match, event recommendation, streak warning. Max 2x/week per group.
+- **Manual event planning:** Propose time, see who's free (green/yellow/red), comments, auto-finalize at 70% or 7 days.
+
+## Data Models (Prisma)
+
+User, Session, Friendship, Group, GroupMember, CalendarConnection, FreeBusyBlock. Enums: FriendshipStatus, GroupRole, CalendarProvider, FreeBusySource.
+
+## Acceptance Criteria Patterns
+
+- Sign-up &lt;2 min, OAuth scopes minimal (freebusy only)
+- Friend search &lt;1s, invitations 7-day expiry
+- Algorithm &lt;500ms, top rec 70% when majority free
+- Nudges max 2x/week, opt-out per group/global

@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 
 const ALGORITHM = "aes-256-gcm";
 const IV_LENGTH = 16;
-const AUTH_TAG_LENGTH = 16;
+const _AUTH_TAG_LENGTH = 16;
 const KEY_LENGTH = 32;
 
 function getKey(): Buffer {

@@ -114,11 +114,7 @@ export async function login(email: string, password: string): Promise<AuthRespon
   });
 }
 
-export async function signup(
-  email: string,
-  password: string,
-  name: string
-): Promise<AuthResponse> {
+export async function signup(email: string, password: string, name: string): Promise<AuthResponse> {
   return request<AuthResponse>("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({ email, password, name }),

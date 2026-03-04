@@ -12,9 +12,26 @@ Social scheduling app for friend groups. Sprint 1: Auth + Database Foundation.
 
 ## Prerequisites
 
-- Node.js 18+
-- PostgreSQL (or Supabase account)
-- pnpm or npm
+- Node.js 20+ (see `.nvmrc`)
+- PostgreSQL (Supabase or local Docker)
+- npm
+
+## Local PostgreSQL (Docker)
+
+For offline development with a consistent local database:
+
+```bash
+docker compose up -d
+```
+
+Then set in `.env`:
+
+```
+DATABASE_URL="postgresql://gather:gather_dev@localhost:5432/gather"
+DIRECT_URL="postgresql://gather:gather_dev@localhost:5432/gather"
+```
+
+Run migrations: `npm run db:migrate`
 
 ## Setup
 
@@ -31,10 +48,9 @@ Social scheduling app for friend groups. Sprint 1: Auth + Database Foundation.
    ```
 
    Edit `.env` and set:
-
-   - `DATABASE_URL` — Supabase connection string
-   - `JWT_ACCESS_SECRET` — min 32 chars (use distinct value)
-   - `JWT_REFRESH_SECRET` — min 32 chars (use distinct value, different from access)
+   - `DATABASE_URL` — PostgreSQL connection string (Supabase or local Docker)
+   - `DIRECT_URL` — Same for local; Supabase uses session pooler port 5432
+   - `ACCESS_TOKEN_SECRET` — min 32 chars (JWT signing)
    - `OAUTH_ENCRYPTION_KEY` — 32 bytes hex or base64 (for Phase 2)
    - `CORS_ORIGIN` — frontend URL (e.g. `http://localhost:5173` for dev)
 
@@ -57,14 +73,16 @@ Social scheduling app for friend groups. Sprint 1: Auth + Database Foundation.
 
 ## Scripts
 
-| Command        | Description                    |
-| -------------- | ------------------------------ |
-| `npm run dev`  | Start frontend + API in dev     |
-| `npm run build`| Build all workspaces           |
-| `db:generate`  | Generate Prisma client         |
-| `db:migrate`   | Run migrations                 |
-| `db:push`      | Push schema (no migration)    |
-| `db:studio`    | Open Prisma Studio             |
+| Command          | Description                 |
+| ---------------- | --------------------------- |
+| `npm run dev`    | Start frontend + API in dev |
+| `npm run build`  | Build all workspaces        |
+| `npm run lint`   | Run ESLint                  |
+| `npm run format` | Format with Prettier        |
+| `db:generate`    | Generate Prisma client      |
+| `db:migrate`     | Run migrations              |
+| `db:push`        | Push schema (no migration)  |
+| `db:studio`      | Open Prisma Studio          |
 
 ## Project structure
 
@@ -72,7 +90,8 @@ Social scheduling app for friend groups. Sprint 1: Auth + Database Foundation.
 gather/
 ├── apps/
 │   ├── api/     # Express backend
-│   └── web/     # Vite + React frontend
+│   ├── web/     # Vite + React frontend
+│   └── mobile/  # Expo (React Native)
 ├── packages/
 │   └── shared/  # Shared types
 ├── prisma/      # Schema + migrations

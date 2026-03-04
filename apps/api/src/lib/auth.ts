@@ -18,11 +18,9 @@ export function verifyPassword(password: string, hash: string): Promise<boolean>
 export function createAccessToken(user: { id: string; email: string }): string {
   const secret = process.env.ACCESS_TOKEN_SECRET;
   if (!secret) throw new Error("ACCESS_TOKEN_SECRET is not set");
-  return jwt.sign(
-    { sub: user.id, email: user.email, iat: Math.floor(Date.now() / 1000) },
-    secret,
-    { expiresIn: ACCESS_EXPIRY }
-  );
+  return jwt.sign({ sub: user.id, email: user.email, iat: Math.floor(Date.now() / 1000) }, secret, {
+    expiresIn: ACCESS_EXPIRY,
+  });
 }
 
 export function verifyAccessToken(token: string): { sub: string; email: string } {
@@ -46,7 +44,14 @@ export function getRefreshExpiry(): Date {
   return d;
 }
 
-export function toUserResponse(user: User): { id: string; email: string; name: string; avatarUrl: string | null; createdAt: Date; updatedAt: Date } {
+export function toUserResponse(user: User): {
+  id: string;
+  email: string;
+  name: string;
+  avatarUrl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+} {
   return {
     id: user.id,
     email: user.email,

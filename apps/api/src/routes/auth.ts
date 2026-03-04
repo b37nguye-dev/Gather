@@ -192,18 +192,22 @@ authRouter.post("/logout", async (req: Request, res: Response): Promise<void> =>
   res.status(204).send();
 });
 
-authRouter.get("/me", authenticateToken, async (req: Request & { user?: AuthUser }, res: Response): Promise<void> => {
-  const user = req.user;
-  if (!user) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+authRouter.get(
+  "/me",
+  authenticateToken,
+  async (req: Request & { user?: AuthUser }, res: Response): Promise<void> => {
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
 
-  const fullUser = await prisma.user.findUnique({ where: { id: user.id } });
-  if (!fullUser) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+    const fullUser = await prisma.user.findUnique({ where: { id: user.id } });
+    if (!fullUser) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
 
-  res.json({ user: toUserResponse(fullUser) });
-});
+    res.json({ user: toUserResponse(fullUser) });
+  }
+);
